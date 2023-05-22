@@ -27,13 +27,12 @@ public class Main {
 					+ "FROM countries \r\n"
 					+ "JOIN regions ON countries.region_id = regions.region_id \r\n"
 					+ "JOIN continents ON regions.continent_id = continents.continent_id \r\n"
-					+ "WHERE continents.`name` LIKE '%"+ userWord + "%' \r\n"
+					+ "WHERE continents.`name` LIKE ? \r\n"
 					+ "ORDER BY continents.name; ";
 			
-			
-			
 			try (PreparedStatement ps = con.prepareStatement(sql)) {
-							
+						 ps.setString(1, '%' + userWord + '%');
+						 
 							try (ResultSet rs = ps.executeQuery()) {
 								
 								while(rs.next()) {
@@ -49,7 +48,7 @@ public class Main {
 								}
 								
 								
-							}				
+							} 				
 						} catch (SQLException ex) {
 							System.err.println("Query not well formed");
 						}
